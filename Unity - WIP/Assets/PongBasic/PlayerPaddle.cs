@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerPaddle : Paddle
 {
-    bool movingRight = true;
+    float moveValue = 0;
     
     private void Awake()
     {
@@ -23,12 +23,16 @@ public class PlayerPaddle : Paddle
     {
         if (InputManager.instance.PControls.Default.Movement.IsInProgress())
         {
+            if(moveValue == 0) { return; }
             Vector2 movementForce = Vector2.zero;
-            if (movingRight) { movementForce = Vector2.right; }
-            else { movementForce = Vector2.left; }
-            movementForce *= paddleSpeed;
+            previousLocation = rb.position;
 
-            rb.velocity = movementForce;
+            if (moveValue > 0 && !hitWall) { movementForce = Vector2.right; }
+            if (moveValue < 0 && !hitWall) { movementForce = Vector2.left; }
+            
+            movementForce *= defaultPaddleSpeed;
+
+            rb.MovePosition(rb.position + (movementForce * Time.deltaTime));
         }
     }
 
@@ -40,16 +44,14 @@ public class PlayerPaddle : Paddle
 
     private void OnStartMovement(InputAction.CallbackContext context)
     {
-        float result = context.ReadValue<float>();
-        if (result < 0) movingRight = false;
-        else movingRight = true;
+        moveValue = context.ReadValue<float>();
     }
 
     private void OnEndMovement(InputAction.CallbackContext context)
     {
-        if (!InputManager.instance.PControls.Default.Movement.IsInProgress())
-        {
-            rb.velocity = Vector2.zero;
-        }
+        //if (!InputManager.instance.PControls.Default.Movement.IsInProgress())
+        //{
+        //    rb.velocity = Vector2.zero;
+        //}
     }
 }

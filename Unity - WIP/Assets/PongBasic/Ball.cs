@@ -5,17 +5,14 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     bool directionToStart = false;
-    public float startSpeed = 10f;
-    public float maxSpeed = 100f;
+    public float startSpeed = 5f;
+    public float maxSpeed = 50f;
     public Vector2 mapRange = new Vector2(-5, 5);
     Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        float direction = UnityEngine.Random.Range(0f, 1f);
-        if (direction >= .5f) directionToStart = true;
-        else directionToStart = false;
 
         Vector2 startVelocity = new Vector2(UnityEngine.Random.Range(mapRange.x, mapRange.y), startSpeed);
         if(!directionToStart)
@@ -23,7 +20,6 @@ public class Ball : MonoBehaviour
             startVelocity = new Vector2(startVelocity.x, startVelocity.y * -1);
         }
         rb.velocity = startVelocity;
-        Debug.Log("Start Vel: " + startVelocity);
     }
 
     private void FixedUpdate()
@@ -43,6 +39,24 @@ public class Ball : MonoBehaviour
         if(collision.gameObject.tag == "wall")
         {
             Debug.Log("Hit a wall");
+            Vector2 velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+            rb.velocity = velocity;
+        }
+
+        if(collision.gameObject.tag == "paddle")
+        {
+            Debug.Log("Hit a paddle");
+
+            float newXVelocity = rb.velocity.x + collision.gameObject.GetComponent<Rigidbody2D>().velocity.x;
+            Vector2 velocity = new Vector2(newXVelocity, -rb.velocity.y);
+            rb.velocity = velocity;
+            GameManager.instance.lastHitPaddle = collision.gameObject.GetComponent<Paddle>();
+            
+        }
+
+        if(collision.gameObject.tag == "goal")
+        {
+            GameManager.instance.UpdateScore();
         }
     }
 
