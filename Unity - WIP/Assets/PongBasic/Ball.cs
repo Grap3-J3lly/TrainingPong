@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+    public Vector2 startLocation = Vector2.zero;
     bool directionToStart = false;
     public float startSpeed = 5f;
     public float maxSpeed = 50f;
@@ -13,9 +14,15 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        ResetBall();
+    }
+
+    private void ResetBall()
+    {
+        rb.position = startLocation;
 
         Vector2 startVelocity = new Vector2(UnityEngine.Random.Range(mapRange.x, mapRange.y), startSpeed);
-        if(!directionToStart)
+        if (!directionToStart)
         {
             startVelocity = new Vector2(startVelocity.x, startVelocity.y * -1);
         }
@@ -57,6 +64,7 @@ public class Ball : MonoBehaviour
         if(collision.gameObject.tag == "goal")
         {
             GameManager.instance.UpdateScore();
+            ResetBall();
         }
     }
 
