@@ -8,8 +8,14 @@ public class GameManager : MonoBehaviour
     public UIManager uiManager;
     public Paddle lastHitPaddle;
 
+    public PlayerPaddle playerPaddle;
+    public ComputerPaddle enemyPaddle;
+    public Ball ball;
+
     public int playerScore = 0;
     public int enemyeScore = 0;
+    public int gameOverScore = 10;
+    public bool gameOver = false;
 
     private void Awake()
     {
@@ -24,7 +30,15 @@ public class GameManager : MonoBehaviour
         uiManager.Setup();
     }
 
-    public void UpdateScore()
+    private void Update()
+    {
+        if(playerScore >= 10 || enemyeScore >= 10)
+        {
+            gameOver = true;
+        }
+    }
+
+    public void HandleScoring()
     {
         if (lastHitPaddle == null)
         {
@@ -32,15 +46,22 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if(lastHitPaddle.GetType() == typeof(PlayerPaddle))
+        if (lastHitPaddle.GetType() == typeof(PlayerPaddle))
         {
             ++playerScore;
             uiManager.UpdateScore(true, playerScore);
+            enemyPaddle.IncreaseScaleFactor();
         }
         else
         {
             ++enemyeScore;
             uiManager.UpdateScore(false, enemyeScore);
+        }
+
+        if(!gameOver)
+        {
+            ball.ResetBall();
+            ball.IncreaseBallSpeed();
         }
     }
 }

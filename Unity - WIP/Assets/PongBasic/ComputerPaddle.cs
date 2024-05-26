@@ -9,6 +9,7 @@ public class ComputerPaddle : Paddle
     public float minScaleFactor = 1;
     public float maxScaleFactor = 10;
     public float scaleFactor = 2f;
+    public float scaleIncrement = 1f;
 
     private void Start()
     {
@@ -61,5 +62,10 @@ public class ComputerPaddle : Paddle
 
         movementDirection *= paddleSpeed;
         rb.MovePosition(rb.position + (movementDirection * Time.deltaTime));
+    }
+
+    public void IncreaseScaleFactor()
+    {
+        scaleFactor += scaleIncrement;
     }
 }

@@ -483,6 +483,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1932717566}
   lastHitPaddle: {fileID: 0}
+  playerPaddle: {fileID: 2074329392}
+  enemyPaddle: {fileID: 1818431097}
+  ball: {fileID: 1614039682}
   playerScore: 0
   enemyeScore: 0
 --- !u!114 &1507041391 stripped
@@ -501,6 +504,28 @@ Rigidbody2D:
   m_CorrespondingSourceObject: {fileID: 7505830580998279161, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
   m_PrefabInstance: {fileID: 5579104395465393028}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1614039682 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7309323955360356667, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
+  m_PrefabInstance: {fileID: 5579104395465393028}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860c96c8730988042b4d2859fc7bd514, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1818431097 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4117429516195075730, guid: 872979e0b568468409fb614134a1d375, type: 3}
+  m_PrefabInstance: {fileID: 2115217128898756275}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0773dc730e1952d4ca7137c5f9ac3c49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1932717566 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8764270540957192553, guid: 28a94264dbca5994bace97d31c1d4abc, type: 3}
@@ -603,6 +628,17 @@ MonoBehaviour:
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
   m_CursorLockBehavior: 0
+--- !u!114 &2074329392 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6961063297105948439, guid: 18c3789acc577c043886a37df829beae, type: 3}
+  m_PrefabInstance: {fileID: 8462729352163617188}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d047b0abe6080b419cc1176f29a37fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2115217128898756275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -838,8 +874,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7309323955360356667, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
+      propertyPath: maxSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309323955360356667, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
       propertyPath: startSpeed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7309323955360356667, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
+      propertyPath: speedIncrement
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8303971102710604965, guid: b6548b53659ffc94195b7acce4a11cf9, type: 3}
       propertyPath: m_Name

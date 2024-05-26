@@ -7,27 +7,19 @@ public class Ball : MonoBehaviour
     public Vector2 startLocation = Vector2.zero;
     bool directionToStart = false;
     public float startSpeed = 5f;
+    private float currentSpeed = 1f;
     public float maxSpeed = 50f;
+    public float speedIncrement = 5f;
     public Vector2 mapRange = new Vector2(-5, 5);
     Rigidbody2D rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        ResetBall();
+        currentSpeed = startSpeed;
+//        ResetBall();
     }
 
-    private void ResetBall()
-    {
-        rb.position = startLocation;
-
-        Vector2 startVelocity = new Vector2(UnityEngine.Random.Range(mapRange.x, mapRange.y), startSpeed);
-        if (!directionToStart)
-        {
-            startVelocity = new Vector2(startVelocity.x, startVelocity.y * -1);
-        }
-        rb.velocity = startVelocity;
-    }
 
     private void FixedUpdate()
     {
@@ -63,9 +55,24 @@ public class Ball : MonoBehaviour
 
         if(collision.gameObject.tag == "goal")
         {
-            GameManager.instance.UpdateScore();
-            ResetBall();
+            GameManager.instance.HandleScoring();
         }
     }
 
+    public void ResetBall()
+    {
+        rb.position = startLocation;
+
+        Vector2 startVelocity = new Vector2(UnityEngine.Random.Range(mapRange.x, mapRange.y), currentSpeed);
+        if (!directionToStart)
+        {
+            startVelocity = new Vector2(startVelocity.x, startVelocity.y * -1);
+        }
+        rb.velocity = startVelocity;
+    }
+
+    public void IncreaseBallSpeed()
+    {
+        currentSpeed += speedIncrement;
+    }
 }
