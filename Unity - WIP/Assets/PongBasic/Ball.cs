@@ -5,7 +5,9 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public Vector2 startLocation = Vector2.zero;
-    bool directionToStart = false;
+
+    [HideInInspector, Tooltip("True fires at enemy, false fires at player")]
+    public bool fireDirection = false;
     public float startSpeed = 5f;
     private float currentSpeed = 1f;
     public float maxSpeed = 50f;
@@ -16,10 +18,9 @@ public class Ball : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        currentSpeed = startSpeed;
-//        ResetBall();
+        Setup();
+        //ResetBall();
     }
-
 
     private void FixedUpdate()
     {
@@ -59,16 +60,23 @@ public class Ball : MonoBehaviour
         }
     }
 
+    public void Setup()
+    {
+        currentSpeed = startSpeed;
+    }
+
     public void ResetBall()
     {
         rb.position = startLocation;
 
         Vector2 startVelocity = new Vector2(UnityEngine.Random.Range(mapRange.x, mapRange.y), currentSpeed);
-        if (!directionToStart)
+        if (!fireDirection)
         {
             startVelocity = new Vector2(startVelocity.x, startVelocity.y * -1);
         }
         rb.velocity = startVelocity;
+
+        GameManager.instance.SwapLastHit();
     }
 
     public void IncreaseBallSpeed()

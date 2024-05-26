@@ -7,11 +7,15 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI playerScore;
     public TextMeshProUGUI enemyScore;
 
+    public GameObject mainMenu;
+    public GameObject gameOverScreen;
+    public TextMeshProUGUI gameOverText;
+
     public void Setup()
     {
         gameManager = GameManager.instance;
-        playerScore.text = gameManager.playerScore.ToString();
-        enemyScore.text = gameManager.enemyeScore.ToString();
+        mainMenu.SetActive(true);
+        gameOverScreen.SetActive(false);
     }
 
     public void UpdateScore(bool updatePlayer, int newScore)
@@ -26,4 +30,30 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OnStartPressed()
+    {
+        mainMenu.SetActive(false);
+        gameOverScreen.SetActive(false);
+        GameManager.instance.StartGame();
+        playerScore.text = gameManager.playerScore.ToString();
+        enemyScore.text = gameManager.enemyScore.ToString();
+    }
+
+    public void OnQuitPressed()
+    {
+        Application.Quit();
+    }
+
+    public void OnGameOver(bool playerWin)
+    {
+        gameOverScreen.SetActive(true);
+        if (playerWin)
+        {
+            gameOverText.text = "YOU WIN";
+        }
+        else
+        {
+            gameOverText.text = "YOU LOSE";
+        }
+    }
 }

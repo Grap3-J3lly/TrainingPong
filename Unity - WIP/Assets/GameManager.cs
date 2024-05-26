@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public Ball ball;
 
     public int playerScore = 0;
-    public int enemyeScore = 0;
+    public int enemyScore = 0;
     public int gameOverScore = 10;
     public bool gameOver = false;
 
@@ -28,14 +28,25 @@ public class GameManager : MonoBehaviour
             Destroy(this);
         }
         uiManager.Setup();
+        gameOver = true;
     }
 
     private void Update()
     {
-        if(playerScore >= 10 || enemyeScore >= 10)
+        if(playerScore == gameOverScore || enemyScore == gameOverScore)
         {
             gameOver = true;
+            uiManager.OnGameOver(playerScore > enemyScore);
         }
+    }
+
+    public void StartGame()
+    {
+        gameOver = false;
+        playerScore = 0;
+        enemyScore = 0;
+        ball.Setup();
+        ball.ResetBall();
     }
 
     public void HandleScoring()
@@ -51,17 +62,36 @@ public class GameManager : MonoBehaviour
             ++playerScore;
             uiManager.UpdateScore(true, playerScore);
             enemyPaddle.IncreaseScaleFactor();
+            ball.fireDirection = false;
         }
         else
         {
-            ++enemyeScore;
-            uiManager.UpdateScore(false, enemyeScore);
+            ++enemyScore;
+            uiManager.UpdateScore(false, enemyScore);
+            ball.fireDirection = true;
         }
 
         if(!gameOver)
         {
             ball.ResetBall();
             ball.IncreaseBallSpeed();
+        }
+    }
+
+    public void SwapLastHit()
+    {
+        if (lastHitPaddle == null)
+        {
+            return;
+        }
+
+        if (lastHitPaddle == playerPaddle)
+        {
+            lastHitPaddle = enemyPaddle;
+        }
+        else
+        {
+            lastHitPaddle = playerPaddle;
         }
     }
 }

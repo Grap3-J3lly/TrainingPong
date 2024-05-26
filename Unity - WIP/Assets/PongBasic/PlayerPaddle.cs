@@ -13,12 +13,6 @@ public class PlayerPaddle : Paddle
         BindToInputSystem();
     }
 
-    // Update is called once per frame
-    private void Update()
-    {   
-        
-    }
-
     private void FixedUpdate()
     {
         if (InputManager.instance.PControls.Default.Movement.IsInProgress())
@@ -40,10 +34,16 @@ public class PlayerPaddle : Paddle
     {
         InputManager.instance.PControls.Default.Movement.started += OnStartMovement;
         InputManager.instance.PControls.Default.Movement.canceled += OnEndMovement;
+        InputManager.instance.PControls.Default.Quit.performed += OnQuit;
     }
 
     private void OnStartMovement(InputAction.CallbackContext context)
     {
+        if(!GameManager.instance || GameManager.instance.gameOver)
+        {
+            moveValue = 0;
+            return;
+        }
         moveValue = context.ReadValue<float>();
     }
 
@@ -53,5 +53,10 @@ public class PlayerPaddle : Paddle
         //{
         //    rb.velocity = Vector2.zero;
         //}
+    }
+
+    private void OnQuit(InputAction.CallbackContext context)
+    {
+        Application.Quit();
     }
 }

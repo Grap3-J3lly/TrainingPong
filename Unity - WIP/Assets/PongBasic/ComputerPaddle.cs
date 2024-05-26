@@ -13,13 +13,18 @@ public class ComputerPaddle : Paddle
 
     private void Start()
     {
-        scaleFactor = minScaleFactor;
+        Setup();
         GameManager.instance.lastHitPaddle = this;
     }
 
     private void FixedUpdate()
     {
         HandleMovement();
+    }
+
+    public void Setup()
+    {
+        scaleFactor = minScaleFactor;
     }
 
     private void HandleMovement()
@@ -66,6 +71,9 @@ public class ComputerPaddle : Paddle
 
     public void IncreaseScaleFactor()
     {
-        scaleFactor += scaleIncrement;
+        if(scaleFactor < maxScaleFactor)
+        {
+            scaleFactor += scaleIncrement;
+        }
     }
 }
